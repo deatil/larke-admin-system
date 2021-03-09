@@ -1,0 +1,42 @@
+{
+    "name": "lake/larke-admin-frontend",
+    "description": "A frontend for larke-admin with vue2 and element-ui.",
+    "keywords": [
+        "laravel",
+        "larke",
+        "admin",
+        "vue",
+        "element-ui",
+        "vue-element-admin",
+        "frontend",
+        "larke-admin",
+        "larke-admin-frontend"
+    ],
+    "homepage": "https://github.com/deatil/larke-admin-frontend",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "deatil",
+            "email": "deatil@github.com",
+            "homepage": "https://github.com/deatil",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "lake/larke-admin":"1.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larke\\Admin\\Frontend\\": "src/frontend"
+        }
+    },
+    "extra" : {
+        "laravel" : {
+            "providers" : [
+                "Larke\\Admin\\Frontend\\ServiceProvider"
+            ]
+        }
+    }
+}

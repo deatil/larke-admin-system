@@ -1,0 +1,29 @@
+{
+    "name": "lake/larke-pclzip",
+    "description": "A zip tool.",
+    "keywords": [
+        "lake",
+        "larke",
+        "admin",
+        "zip",
+        "pclzip"
+    ],
+    "homepage": "https://github.com/deatil/larke-pclzip",
+    "type": "library",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "deatil",
+            "email": "deatil@github.com",
+            "homepage": "https://github.com/deatil"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larke\\Admin\\Support\\": "src/Support"
+        }
+    }
+}
