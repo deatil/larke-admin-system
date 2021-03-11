@@ -7,6 +7,8 @@
 *  基于 `JWT` 的用户登录态管理
 *  权限判断基于 `php-casbin` 的 `RBAC` 授权
 *  本系统库为 `composer` 安装后的完整版本
+*  系统核心 [larke-admin](https://github.com/deatil/larke-admin)
+*  前端核心 [Larke Admin Frontend](https://github.com/deatil/larke-admin-frontend)
 
 
 ### 环境要求
