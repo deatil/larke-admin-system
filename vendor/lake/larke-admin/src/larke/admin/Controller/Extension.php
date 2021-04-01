@@ -26,7 +26,7 @@ use Larke\Admin\Model\Extension as ExtensionModel;
  * @desc 系统扩展管理
  * @order 350
  * @auth true
- * @slug {prefixAs}extension
+ * @slug {prefix}extension
  *
  * @create 2020-10-30
  * @author deatil
@@ -330,6 +330,10 @@ class Extension extends Base
             return $this->error(__('扩展未安装'));
         }
         
+        if ($info->status == 1) {
+            return $this->error(__('扩展需要禁用后才能卸载'));
+        }
+
         $deleteStatus = $info->delete();
         if ($deleteStatus === false) {
             return $this->error(__('扩展卸载失败'));
@@ -369,6 +373,10 @@ class Extension extends Base
             return $this->error(__('扩展未安装'));
         }
         
+        if ($installInfo->status == 1) {
+            return $this->error(__('扩展需要禁用后才能更新'));
+        }
+
         AdminExtension::loadExtension();
         $info = AdminExtension::getExtension($name);
         if (empty($info)) {

@@ -5,8 +5,8 @@ return [
         'name' => "LarkeAdmin",
         'name_mini' => "Larke",
         'logo' => '<b>Larke</b> admin',
-        'release' => 20210305,
-        'version' => "1.1.8",
+        'release' => 20210313,
+        'version' => "1.1.9",
     ],
     
     'https' => env('LARKE_ADMIN_HTTPS', false),
@@ -20,7 +20,7 @@ return [
     ],
     
     'jwt' => [
-        'iss' => env('LARKE_ADMIN_JWT_ISS', 'admin-api.domain.com'),
+        'iss' => env('LARKE_ADMIN_JWT_ISS', 'admin-api.yourdomain.com'),
         'aud' => env('LARKE_ADMIN_JWT_AUD', !app()->runningInConsole() ? md5(request()->ip().request()->server('HTTP_USER_AGENT')) : ''),
         'sub' => env('LARKE_ADMIN_JWT_SUB', 'larke-admin-passport'),
         'jti' => env('LARKE_ADMIN_JWT_JTI', 'larke-admin-jid'),
@@ -124,5 +124,16 @@ return [
             'pdf'    => '/^(pdf)$/i',
             'flash'  => '/^(swf)$/i',
         ],
+    ],
+    
+    'captcha' => [
+        'charset' => 'abcdefghkmnprstuvwxyzABCDEFGHKMNPRSTUVWXYZ23456789',
+        'codelen' => 4,
+        'width' => 130,
+        'height' => 50,
+        // 为空为默认字体
+        'font' => '',
+        'fontsize' => 20,
+        'cachetime' => 300,
     ],
 ];

@@ -18,7 +18,7 @@ use Larke\Admin\Model\Admin as AdminModel;
  * @desc 个人信息管理
  * @order 150
  * @auth true
- * @slug {prefixAs}profile
+ * @slug {prefix}profile
  *
  * @create 2020-10-20
  * @author deatil
@@ -170,6 +170,7 @@ class Profile extends Base
             return $this->error(__('帐号错误'));
         }
         
+        $adminInfo = $adminInfo->makeVisible(['password', 'password_salt']);
         $encryptPassword = (new Password())
             ->withSalt(config('larkeadmin.passport.password_salt'))
             ->encrypt($oldPassword, $adminInfo['password_salt']); 

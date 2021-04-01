@@ -21,11 +21,11 @@
         </el-select>
 
         <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-          {{ $t('table.search') }}
+          {{ $t('搜索') }}
         </el-button>
 
         <el-button :disabled="!checkPermission(['larke-admin.config.create'])" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
-          {{ $t('table.add') }}
+          {{ $t('添加') }}
         </el-button>
       </div>
 
@@ -93,7 +93,7 @@
               inactive-color="#ff4949"
               :active-value="1"
               :inactive-value="0"
-              :disabled="!checkPermission(['larke-admin.config.enable', 'larke-admin.config.disable'])"
+              :disabled="!checkPermission(['larke-admin.config.enable']) || !checkPermission(['larke-admin.config.disable'])"
               @change="changeStatus($event, scope.row, scope.$index)"
             />
           </template>

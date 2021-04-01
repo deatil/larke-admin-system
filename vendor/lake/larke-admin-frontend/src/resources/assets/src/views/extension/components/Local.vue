@@ -21,7 +21,15 @@
         <template slot-scope="scope">
 
           <div class="extension-title">
-            <span>{{ scope.row.title }}</span>
+            <span v-if="scope.row.homepage && scope.row.homepage != ''">
+              <a :href="scope.row.homepage" target="_blank" :title="scope.row.title">
+                {{ scope.row.title }}
+              </a>
+            </span>
+
+            <span v-else>
+              {{ scope.row.title }}
+            </span>
           </div>
 
           <div class="extension-name">
@@ -38,6 +46,13 @@
           </div>
 
           <div>
+            <el-tooltip effect="dark" :content="$t('当前扩展适配系统版本')" placement="top">
+              <el-tag type="info" size="mini" style="margin-right:10px;">
+                <i class="el-icon-goblet-square-full" />&nbsp;
+                <span>{{ scope.row.adaptation }}</span>
+              </el-tag>
+            </el-tooltip>
+
             <template v-if="scope.row.upgrade == 1">
               <el-tooltip effect="dark" :content="$t('当前扩展版本')" placement="top">
                 <el-tag type="primary" size="mini" style="margin-right:10px;">
@@ -59,14 +74,6 @@
                 </el-tag>
               </el-tooltip>
             </template>
-
-            <el-tooltip effect="dark" :content="$t('当前扩展适配系统版本')" placement="top">
-              <el-tag type="info" size="mini" style="margin-right:10px;">
-                <i class="el-icon-goblet-square-full" />&nbsp;
-                <span>{{ scope.row.adaptation }}</span>
-              </el-tag>
-            </el-tooltip>
-
           </div>
         </template>
       </el-table-column>
@@ -75,7 +82,15 @@
         <template slot-scope="scope">
           <div v-for="item in scope.row.authors.slice(0, 1)" :key="item.name" class="extension-author">
             <div class="author-name">
-              <span>{{ item.name }}</span>
+              <span v-if="item.homepage && item.homepage != ''">
+                <a :href="item.homepage" target="_blank" :title="item.name">
+                  {{ item.name }}
+                </a>
+              </span>
+
+              <span v-else>
+                {{ item.name }}
+              </span>
             </div>          
 
             <div class="author-email">
@@ -258,6 +273,10 @@ export default {
             thiz.confirmTip(err.message + "【" + require.join('，') + "】")
           }
         })
+
+        setTimeout(function() {
+          loading.close()
+        }, 3000)
       }).catch(() => {
 
       })
@@ -267,6 +286,9 @@ export default {
 </script>
 
 <style scoped>
+.extension-title a:hover {
+  color: #1b4fb7;
+}
 .extension-name {
   color: #909399;
   font-size: 13px;

@@ -11,6 +11,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 use Larke\Admin\Contracts\Response as ResponseContract;
 use Larke\Admin\Contracts\Jwt as JwtContract;
+use Larke\Admin\Contracts\Captcha as CaptchaContract;
 use Larke\Admin\Jwt\Jwt;
 use Larke\Admin\Http\Response as HttpResponse;
 use Larke\Admin\Http\ResponseCode;
@@ -57,6 +58,7 @@ class ServiceProvider extends BaseServiceProvider
         Command\ResetPermission::class,
         Command\ClearCache::class,
         Command\Extension::class,
+        Command\JWTGenerateSecret::class,
     ];
 
     /**
@@ -110,8 +112,6 @@ class ServiceProvider extends BaseServiceProvider
         
         $this->registerRouteMiddleware();
         
-        $this->commands($this->commands);
-        
         $this->registerProviders();
     }
     
@@ -127,6 +127,8 @@ class ServiceProvider extends BaseServiceProvider
         $this->bootObserver();
         
         $this->bootExtension();
+        
+        $this->bootCommand();
     }
 
     /**
@@ -184,7 +186,20 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->bind('larke-admin.loader', Loader::class);
         
         // 验证码
-        $this->app->bind('larke-admin.captcha', Captcha::class);
+        $this->app->bind('larke-admin.captcha', CaptchaContract::class);
+        $this->app->bind(CaptchaContract::class, function() {
+            $captcha = new Captcha();
+            
+            $config = config('larkeadmin.captcha');
+            $config = collect($config)
+                ->filter(function($data) {
+                    return !empty($data);
+                })
+                ->toArray();
+            $captcha->withConfig($config);
+            
+            return $captcha;
+        });
         
         // 响应
         $this->app->bind('larke-admin.response', ResponseContract::class);
@@ -340,6 +355,18 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootExtension()
     {
         app('larke-admin.extension')->bootExtension();
+    }
+
+    /**
+     * 脚本
+     *
+     * @return void
+     */
+    protected function bootCommand()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands($this->commands);
+        }
     }
     
 }

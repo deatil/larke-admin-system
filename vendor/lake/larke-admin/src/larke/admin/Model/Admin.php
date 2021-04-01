@@ -16,10 +16,27 @@ class Admin extends Base
     protected $keyType = 'string';
     protected $primaryKey = 'id';
     
-    protected $guarded = [];
-    
     public $incrementing = false;
     public $timestamps = false;
+    
+    /**
+     * 黑名单
+     *
+     * @var array
+     */
+    protected $guarded = [
+        'is_root'
+    ];
+    
+    /**
+     * 隐藏
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+        'password_salt',
+    ];
     
     /**
      * 授权
@@ -52,7 +69,7 @@ class Admin extends Base
     public function scopeWithAccess($query, Array $ids = [])
     {
         return $query->with(['groupAccesses' => function ($query) use ($ids) {
-            if (! app('larke-admin.auth-admin')->isAdministrator()) {
+            if (! app('larke-admin.auth-admin')->isSuperAdministrator()) {
                 $groupids = app('larke-admin.auth-admin')->getGroupChildrenIds();
                 $query->whereIn('group_id', $groupids);
                 
